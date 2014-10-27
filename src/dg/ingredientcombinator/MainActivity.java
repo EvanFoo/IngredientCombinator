@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_main);
-        FileOutputStream fos;
+        FileOutputStream fos = null;
 		try {
 			
 			fos = openFileOutput(FILENAME,this.MODE_PRIVATE);

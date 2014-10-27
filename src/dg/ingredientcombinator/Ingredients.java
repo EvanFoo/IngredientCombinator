@@ -1,5 +1,11 @@
 package dg.ingredientcombinator;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Vector;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Ingredients extends ActionBarActivity {
-
+	
+	Vector <String> ingredients = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -17,12 +24,17 @@ public class Ingredients extends ActionBarActivity {
 		LinearLayout linearLayout = new LinearLayout(this);
 		linearLayout.setOrientation(1);
 		
+		getIngredients();
 		
-		LinearLayout lettuceListing = createIngredientListing("Lettuce");
-		LinearLayout mayoListing = createIngredientListing("Mayo");
-		linearLayout.addView(lettuceListing);
-		linearLayout.addView(mayoListing);
-				
+//		for(int i = 0; i < ingredients.size(); i++){
+//			String listing = ingredients.elementAt(i);
+//			LinearLayout ingredientListing = createIngredientListing(listing);
+//			linearLayout.addView(ingredientListing);	
+//		}
+		
+		LinearLayout size = createIngredientListing(ingredients.size() + "");
+		linearLayout.addView(size);
+						
 		setContentView(linearLayout);
 		
 		//setContentView(R.layout.activity_ingredients);
@@ -67,5 +79,25 @@ public class Ingredients extends ActionBarActivity {
 		
 		return(ingredientLayout);
 		
+	}
+	public void getIngredients(){
+		File file = new File("..\\ingredient.txt");
+
+		try {
+		    BufferedReader br = new BufferedReader(new FileReader(file));
+		    String line;
+
+		    while ((line = br.readLine()) != null) {
+		        ingredients.add(line);
+		    }
+		    br.close();
+		}
+		catch (IOException e) {
+		    System.out.println("could not load ingredients");
+		}
+
+		
+		
+	
 	}
 }
