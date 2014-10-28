@@ -6,12 +6,11 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="22dp"
-        android:src="@drawable/sandwich_right" />
+        android:src="@drawable/splashscreen" />
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import android.support.v7.app.ActionBarActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,16 +71,19 @@ public class MainActivity extends ActionBarActivity {
    
 	// To be called when the Ingredients button is clicked	
     public void on_click_ingredients(View view) {
-    	
+    	Intent intent = new Intent(this, Ingredients.class);
+    	startActivity(intent);
     }
    
 	// To be called when the Recipes button is clicked	
     public void on_click_recipes(View view) {
-    	
+    	Intent intent = new Intent(this, Recipes.class);
+    	startActivity(intent);
     }
    
 	// To be called when the Sandwich button is clicked		
     public void on_click_results(View view) {
-    	
+    	Intent intent = new Intent(this, MainActivity.class);
+    	startActivity(intent);
     }
 }

@@ -26,16 +26,16 @@
         <activity
             android:name=".LaunchScreen"
             android:label="@string/title_activity_launch_screen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         
         <activity
             android:name=".Ingredients"
             android:label="@string/title_activity_ingredients" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
     </application>
 
