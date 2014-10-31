@@ -52,4 +52,11 @@
         <requestFocus />
     </EditText>
 
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="on_click_newRecipe"
+        android:text="New Recipe" />
+
 </LinearLayout>

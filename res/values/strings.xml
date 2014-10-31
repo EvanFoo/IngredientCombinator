@@ -11,5 +11,8 @@
     <string name="main_button_recipes">My Recipes</string>
     <string name="main_button_results">Suggest Sandwiches</string>
     <string name="title_activity_ingredients">Ingredients</string>
+    <string name="title_activity_results">Results</string>
+    <string name="title_activity_create_new_recipe">CreateNewRecipe</string>
+    <string name="title_activity_input_new_recipe">InputNewRecipe</string>
 
 </resources>
