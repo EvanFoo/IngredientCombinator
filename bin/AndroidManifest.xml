@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Recipes"
+            android:name=".RecipesScreen"
             android:label="@string/title_activity_recipes" >
         </activity>
         <activity
@@ -33,7 +33,7 @@
             
         </activity>
         <activity
-            android:name=".Ingredients"
+            android:name=".IngredientsScreen"
             android:label="@string/title_activity_ingredients" >
         </activity>
         <activity

@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
    
 	// To be called when the Recipes button is clicked	
     public void on_click_recipes(View view) {
-    	Intent intent = new Intent(this, Recipes.class);
+    	Intent intent = new Intent(this, RecipesScreen.class);
     	startActivity(intent);
     }
    
