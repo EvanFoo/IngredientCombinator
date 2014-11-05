@@ -3,12 +3,7 @@ package dg.ingredientcombinator;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.v4.view.MotionEventCompat;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.widget.ImageView;
-import android.content.Intent;
+import android.os.Handler;
 
 public class LaunchScreen extends Activity {
 	
@@ -19,21 +14,10 @@ public class LaunchScreen extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launch_screen);
 		
-		
+		// Pause for 5 seconds, then finish the activity
+		// For the final product, we would likely create a thread to run the loading
+		// and then wait for that thread to complete before finishing
+		Handler pauser = new Handler();
+		pauser.postDelayed(new Runnable() {public void run() {finish();}}, 5000);
 	}
-	@Override
-	public boolean onTouchEvent(MotionEvent event){ 
-	        
-	    int action = MotionEventCompat.getActionMasked(event);
-	        
-	    switch(action) {
-	        case (MotionEvent.ACTION_DOWN) :
-	        	Intent intent = new Intent(this, MainActivity.class);
-	        	startActivity(intent);
-	            return true;
-	        
-	        default : 
-	            return super.onTouchEvent(event);
-	    }      
-}
 }

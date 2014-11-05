@@ -1,11 +1,6 @@
 package dg.ingredientcombinator;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.support.v7.app.ActionBarActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,40 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
-	String FILENAME = "Ingridients.txt";
-	String string = "hello world!";
-
-	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.activity_main);
-        FileOutputStream fos = null;
-		try {
-			
-			fos = openFileOutput(FILENAME,this.MODE_PRIVATE);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	try {
-			fos.write(string.getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	try {
-			fos.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         
-        
-       
-
+        // Launch the splash screen
+        Intent splash = new Intent(this, LaunchScreen.class);
+        startActivity(splash);
     }
 
 
@@ -71,8 +41,8 @@ public class MainActivity extends ActionBarActivity {
    
 	// To be called when the Ingredients button is clicked	
     public void on_click_ingredients(View view) {
-    	Intent intent = new Intent(this, Ingredients.class);
-    	startActivity(intent);
+    	//Intent intent = new Intent(this, Ingredients.class);
+    	//startActivity(intent);
     }
    
 	// To be called when the Recipes button is clicked	
@@ -83,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
    
 	// To be called when the Sandwich button is clicked		
     public void on_click_results(View view) {
-    	Intent intent = new Intent(this, MainActivity.class);
-    	startActivity(intent);
+    	//Intent intent = new Intent(this, MainActivity.class);
+    	//startActivity(intent);
     }
 }

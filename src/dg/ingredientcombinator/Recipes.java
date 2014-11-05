@@ -15,7 +15,7 @@ public class Recipes extends Activity {
 		setContentView(R.layout.activity_recipes);
 	}
 	 public void on_click_newRecipe(View view) {
-	    	Intent intent = new Intent(this, CreateNewRecipe.class);
-	    	startActivity(intent);
+	    	//Intent intent = new Intent(this, CreateNewRecipe.class);
+	    	//startActivity(intent);
 	    }
 }
