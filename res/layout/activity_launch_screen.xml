@@ -11,6 +11,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/sandwich_left" />
-	<!-- Changed "@drawable/splashscreen" to "@drawable/sandwich_left -->
+        android:src="@drawable/splashscreen" />
 </RelativeLayout>
