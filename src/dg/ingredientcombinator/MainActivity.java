@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
 		LinearLayout main_frame = new LinearLayout(this);
 		main_frame.setOrientation(LinearLayout.VERTICAL);
 		main_frame.addView(constructRecipeList());
-		//main_frame.addView(constructButtonFrame());
+		main_frame.addView(constructButtonFrame());
 		
 		return main_frame;
 	}
@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
         InputStream ingreds = getResources().openRawResource(R.raw.ingredient);
         all_ingredients = RecipeFactory.getIngredientsFromStream(ingreds);
         suggested_recipes = RecipeFactory.createRecipes(recipes, all_ingredients);
-        */
+        //*/
         
         // Launch the splash screen
         Intent splash = new Intent(this, LaunchScreen.class);
