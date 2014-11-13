@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import java.util.ArrayList;
-
+import java.io.InputStream;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -28,31 +28,34 @@ public class MainActivity extends ActionBarActivity {
 		button_frame.setOrientation(LinearLayout.HORIZONTAL);
 		
 		// Set up buttons
-		button_frame.addView(constructButton("My Recipes", 100));
-		button_frame.addView(constructButton("My Ingredients", 101));
+		button_frame.addView(constructButton("My Recipes", 0));
+		button_frame.addView(constructButton("My Ingredients", 1));
 		
 		return button_frame;
 	}
 	
 	private ScrollView constructRecipeList() {
-		ScrollView recipe_list = new ScrollView(this);
+		ScrollView recipe_scroll_list = new ScrollView(this);
+		LinearLayout recipe_list = new LinearLayout(this);
+		recipe_list.setOrientation(LinearLayout.VERTICAL);
 		
 		// Add buttons to recipe list
 		// For now, they'll be generic buttons. We can format them
 		// to be fancy at a later date.
 		for (int i=0; i<suggested_recipes.size(); i++) {
-			Button new_button = constructButton(suggested_recipes.get(i).get_name(), 1000+i);
+			Button new_button = constructButton(suggested_recipes.get(i).get_name(), i);
 			recipe_list.addView(new_button);
 		}
 		
-		return recipe_list;
+		recipe_scroll_list.addView(recipe_list);
+		return recipe_scroll_list;
 	}
 	
 	private LinearLayout constructMainFrame() {
 		LinearLayout main_frame = new LinearLayout(this);
 		main_frame.setOrientation(LinearLayout.VERTICAL);
 		main_frame.addView(constructRecipeList());
-		main_frame.addView(constructButtonFrame());
+		//main_frame.addView(constructButtonFrame());
 		
 		return main_frame;
 	}
@@ -63,6 +66,15 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         
+        /*
+        // Temporary populate lists code
+        // Get data from resources
+        InputStream recipes = getResources().openRawResource(R.raw.recipe);
+        InputStream ingreds = getResources().openRawResource(R.raw.ingredient);
+        all_ingredients = RecipeFactory.getIngredientsFromStream(ingreds);
+        suggested_recipes = RecipeFactory.createRecipes(recipes, all_ingredients);
+        */
+        
         // Launch the splash screen
         Intent splash = new Intent(this, LaunchScreen.class);
         startActivity(splash);
@@ -70,6 +82,7 @@ public class MainActivity extends ActionBarActivity {
         // Spawn a thread to load information from database
         
         // Set Content View after constructing the Main Frame
+        //setContentView(R.layout.activity_main);
         setContentView(constructMainFrame());
     }
 

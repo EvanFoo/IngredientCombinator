@@ -340,6 +340,7 @@ int drawable main_button_results 0x7f020036
 int drawable sandwich_animation 0x7f020037
 int drawable sandwich_left 0x7f020038
 int drawable sandwich_right 0x7f020039
+int drawable splashscreen 0x7f02003a
 int id action_bar 0x7f060033
 int id action_bar_activity_content 0x7f06001a
 int id action_bar_container 0x7f060032

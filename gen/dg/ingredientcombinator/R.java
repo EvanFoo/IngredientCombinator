@@ -1640,6 +1640,7 @@ containing a value of this type.
         public static final int sandwich_animation=0x7f020037;
         public static final int sandwich_left=0x7f020038;
         public static final int sandwich_right=0x7f020039;
+        public static final int splashscreen=0x7f02003a;
     }
     public static final class id {
         public static final int action_bar=0x7f060033;
