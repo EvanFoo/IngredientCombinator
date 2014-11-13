@@ -6,17 +6,71 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import java.util.ArrayList;
+
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 public class MainActivity extends ActionBarActivity {
-    @Override
+    ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
+	ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
+	
+	private Button constructButton(String label, int id) {
+		Button button = new Button(this);
+		button.setText(label);
+		button.setId(id);
+		return button;
+	}
+	
+	private LinearLayout constructButtonFrame() {
+		LinearLayout button_frame = new LinearLayout(this);
+		button_frame.setOrientation(LinearLayout.HORIZONTAL);
+		
+		// Set up buttons
+		button_frame.addView(constructButton("My Recipes", 100));
+		button_frame.addView(constructButton("My Ingredients", 101));
+		
+		return button_frame;
+	}
+	
+	private ScrollView constructRecipeList() {
+		ScrollView recipe_list = new ScrollView(this);
+		
+		// Add buttons to recipe list
+		// For now, they'll be generic buttons. We can format them
+		// to be fancy at a later date.
+		for (int i=0; i<suggested_recipes.size(); i++) {
+			Button new_button = constructButton(suggested_recipes.get(i).get_name(), 1000+i);
+			recipe_list.addView(new_button);
+		}
+		
+		return recipe_list;
+	}
+	
+	private LinearLayout constructMainFrame() {
+		LinearLayout main_frame = new LinearLayout(this);
+		main_frame.setOrientation(LinearLayout.VERTICAL);
+		main_frame.addView(constructRecipeList());
+		main_frame.addView(constructButtonFrame());
+		
+		return main_frame;
+	}
+	
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
         
         // Launch the splash screen
         Intent splash = new Intent(this, LaunchScreen.class);
         startActivity(splash);
+        
+        // Spawn a thread to load information from database
+        
+        // Set Content View after constructing the Main Frame
+        setContentView(constructMainFrame());
     }
 
 
