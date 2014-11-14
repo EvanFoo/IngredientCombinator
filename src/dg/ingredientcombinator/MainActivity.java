@@ -11,15 +11,19 @@ import java.io.InputStream;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.view.View.OnClickListener;
+import android.content.Context;
 
 public class MainActivity extends ActionBarActivity {
     ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
 	ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
+	Context context = this;
 	
-	private Button constructButton(String label, int id) {
+	private Button constructButton(String label, int id, OnClickListener on_click) {
 		Button button = new Button(this);
 		button.setText(label);
 		button.setId(id);
+		button.setOnClickListener(on_click);
 		return button;
 	}
 	
@@ -28,8 +32,26 @@ public class MainActivity extends ActionBarActivity {
 		button_frame.setOrientation(LinearLayout.HORIZONTAL);
 		
 		// Set up buttons
-		button_frame.addView(constructButton("My Recipes", 0));
-		button_frame.addView(constructButton("My Ingredients", 1));
+		// Recipes Screen opener button
+		button_frame.addView(constructButton("My Recipes", 0, new OnClickListener() 
+		{	 
+			public void onClick(View view) {
+				Intent intent = new Intent(context, RecipesScreen.class);
+				startActivity(intent);
+			}
+		}
+		));
+		
+		// Ingredients Screen opener button
+		button_frame.addView(constructButton("My Ingredients", 1, new OnClickListener() 
+		{	 
+			public void onClick(View view) {
+				Intent intent = new Intent(context, IngredientsScreen.class);
+				startActivity(intent);
+			}
+		}
+		
+		));
 		
 		return button_frame;
 	}
@@ -43,7 +65,8 @@ public class MainActivity extends ActionBarActivity {
 		// For now, they'll be generic buttons. We can format them
 		// to be fancy at a later date.
 		for (int i=0; i<suggested_recipes.size(); i++) {
-			Button new_button = constructButton(suggested_recipes.get(i).get_name(), i);
+			OnClickListener on_click = new OnClickListener() { public void onClick(View view) {} };
+			Button new_button = constructButton(suggested_recipes.get(i).get_name(), i, on_click);
 			recipe_list.addView(new_button);
 		}
 		
@@ -66,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         
-        /*
+        ///*
         // Temporary populate lists code
         // Get data from resources
         InputStream recipes = getResources().openRawResource(R.raw.recipe);
