@@ -4,10 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Vector;
 
 import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -16,13 +21,15 @@ import android.widget.TextView;
 
 public class IngredientsScreen extends ActionBarActivity {
 	
-	Vector <String> ingredients = null;
+	Vector <String> ingredients;
+	Context context=this;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ingredients=new Vector<String>();
 		
-		LinearLayout linearLayout = new LinearLayout(this);
-		linearLayout.setOrientation(1);
+	//	LinearLayout linearLayout = new LinearLayout(this);
+	//	linearLayout.setOrientation(1);
 		
 		getIngredients();
 		
@@ -32,12 +39,12 @@ public class IngredientsScreen extends ActionBarActivity {
 //			linearLayout.addView(ingredientListing);	
 //		}
 		
-		LinearLayout size = createIngredientListing(ingredients.size() + "");
-		linearLayout.addView(size);
+	////	LinearLayout size = createIngredientListing(ingredients.size() + "");
+	////	linearLayout.addView(size);
 						
-		setContentView(linearLayout);
+		////setContentView(linearLayout);
 		
-		//setContentView(R.layout.activity_ingredients);
+		setContentView(R.layout.activity_ingredients);
 	}
 
 	@Override
@@ -81,14 +88,16 @@ public class IngredientsScreen extends ActionBarActivity {
 		
 	}
 	public void getIngredients(){
-		File file = new File("..\\ingredient.txt");
-
+		//File file = new File("..\\ingredient.txt");
+		AssetManager am = getAssets();
 		try {
-		    BufferedReader br = new BufferedReader(new FileReader(file));
+		    BufferedReader br = new BufferedReader(new InputStreamReader(am.open("ingredients.txt")));
 		    String line;
 
 		    while ((line = br.readLine()) != null) {
+		    	 Log.d("ingridients",line);
 		        ingredients.add(line);
+		       
 		    }
 		    br.close();
 		}
