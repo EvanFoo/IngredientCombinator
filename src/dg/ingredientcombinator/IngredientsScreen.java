@@ -6,10 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import android.support.v7.app.ActionBarActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,8 +23,10 @@ import android.widget.TextView;
 
 public class IngredientsScreen extends ActionBarActivity {
 	
-	Vector <String> ingredients;
-	Context context=this;
+	Vector <String> ingredients; //Eventually get rid of this
+	ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
+	ArrayList<Ingredient> existing_ingredients = new ArrayList<Ingredient>();
+	//Context context=this;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,12 +36,26 @@ public class IngredientsScreen extends ActionBarActivity {
 	//	linearLayout.setOrientation(1);
 		
 		getIngredients();
+		  /* Example code of how to pass an object between Activities with an Intent
+	        Intent test_intent = new Intent(this, MainActivity.class);
+	        test_intent.putExtra("test", all_ingredients);
+	        ArrayList<Ingredient> a_ingredients = ((ArrayList<Ingredient>)test_intent.getExtras().get("test"));
+	        for (int i=0; i<a_ingredients.size(); i++) {
+	        	Log.d("printing", a_ingredients.get(i).getName());
+	        }
+	        */
 		
-//		for(int i = 0; i < ingredients.size(); i++){
-//			String listing = ingredients.elementAt(i);
-//			LinearLayout ingredientListing = createIngredientListing(listing);
-//			linearLayout.addView(ingredientListing);	
-//		}
+			Intent intent = getIntent();
+			all_ingredients = ((ArrayList<Ingredient>)intent.getExtras().get("test"));
+			if(all_ingredients!=null){
+				for (int i=0; i<all_ingredients.size(); i++) {
+		        	Log.d("printing2", all_ingredients.get(i).getName());
+		        }
+			}
+
+	       
+		
+
 		
 	////	LinearLayout size = createIngredientListing(ingredients.size() + "");
 	////	linearLayout.addView(size);
@@ -45,6 +63,19 @@ public class IngredientsScreen extends ActionBarActivity {
 		////setContentView(linearLayout);
 		
 		setContentView(R.layout.activity_ingredients);
+		for(int i = 0; i < ingredients.size(); i++){
+			String listing = ingredients.elementAt(i);
+			Log.d("printing",listing);
+			LinearLayout ingredientListing = createIngredientListing(listing);
+		//	((LinearLayout)findViewById(R.layout.activity_ingredients)).addView(ingredientListing);
+			LinearLayout here= (LinearLayout)findViewById(R.id.IngredientsScreen);
+			if (here == null) {
+				Log.d("printing", "Null");
+			}
+			else {
+			here.addView(ingredientListing);
+			}
+		}
 	}
 
 	@Override
@@ -68,7 +99,7 @@ public class IngredientsScreen extends ActionBarActivity {
 	
 	public LinearLayout createIngredientListing(String ingredient){
 		LinearLayout ingredientLayout = new LinearLayout(this);
-		ingredientLayout.setOrientation(0);
+		ingredientLayout.setOrientation(LinearLayout.HORIZONTAL);
 
 		TextView ingredientName = new TextView(this);
 		ingredientName.setText(ingredient);
@@ -92,7 +123,7 @@ public class IngredientsScreen extends ActionBarActivity {
 		AssetManager am = getAssets();
 		try {
 		    BufferedReader br = new BufferedReader(new InputStreamReader(am.open("ingredients.txt")));
-		    String line;
+		    String line=new String();
 
 		    while ((line = br.readLine()) != null) {
 		    	 Log.d("ingridients",line);

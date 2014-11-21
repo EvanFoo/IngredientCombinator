@@ -3,11 +3,14 @@ package dg.ingredientcombinator;
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import java.util.ArrayList;
 import java.io.InputStream;
+
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -16,7 +19,10 @@ import android.content.Context;
 
 public class MainActivity extends ActionBarActivity {
     ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
+    
+    // Ingredient lists will be pushed into the bundle in this order: existing, all
 	ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
+	ArrayList<Ingredient> existing_ingredients = new ArrayList<Ingredient>();
 	Context context = this;
 	
 	private Button constructButton(String label, int id, OnClickListener on_click) {
@@ -103,6 +109,16 @@ public class MainActivity extends ActionBarActivity {
         startActivity(splash);
         
         // Spawn a thread to load information from database
+        
+        /*
+         * Example code of how to pass an object between Activities with an Intent
+        Intent test_intent = new Intent(this, MainActivity.class);
+        test_intent.putExtra("test", all_ingredients);
+        ArrayList<Ingredient> a_ingredients = ((ArrayList<Ingredient>)test_intent.getExtras().get("test"));
+        for (int i=0; i<a_ingredients.size(); i++) {
+        	Log.d("printing", a_ingredients.get(i).getName());
+        }
+        */
         
         // Set Content View after constructing the Main Frame
         //setContentView(R.layout.activity_main);

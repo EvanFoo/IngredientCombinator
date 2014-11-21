@@ -18,6 +18,6 @@ public class LaunchScreen extends Activity {
 		// For the final product, we would likely create a thread to run the loading
 		// and then wait for that thread to complete before finishing
 		Handler pauser = new Handler();
-		pauser.postDelayed(new Runnable() {public void run() {finish();}}, 5000);
+		pauser.postDelayed(new Runnable() {public void run() {finish();}}, 5);
 	}
 }
