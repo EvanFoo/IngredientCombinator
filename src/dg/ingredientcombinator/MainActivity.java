@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.io.InputStream;
 
 import android.widget.Button;
@@ -20,9 +21,11 @@ import android.content.Context;
 public class MainActivity extends ActionBarActivity {
     ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
     
+    
     // Ingredient lists will be pushed into the bundle in this order: existing, all
 	ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
 	ArrayList<Ingredient> existing_ingredients = new ArrayList<Ingredient>();
+	ArrayList<Recipe> recipesYouCanMake = new ArrayList<Recipe>();
 	Context context = this;
 	
 	private Button constructButton(String label, int id, OnClickListener on_click) {
@@ -70,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
 		// Add buttons to recipe list
 		// For now, they'll be generic buttons. We can format them
 		// to be fancy at a later date.
-		for (int i=0; i<suggested_recipes.size(); i++) {
+		for (int i=0; i < suggested_recipes.size(); i++) {
 			OnClickListener on_click = new OnClickListener() { public void onClick(View view) {} };
 			Button new_button = constructButton(suggested_recipes.get(i).get_name(), i, on_click);
 			recipe_list.addView(new_button);
@@ -78,6 +81,33 @@ public class MainActivity extends ActionBarActivity {
 		
 		recipe_scroll_list.addView(recipe_list);
 		return recipe_scroll_list;
+	}
+	
+	//this function will seach for recipes that can be made with the ingredients on hand
+	private ArrayList<Recipe> searchFunction(){
+		Hashtable hashtable = new Hashtable();
+		ArrayList<Recipe> returnRecipes = null;
+		
+		
+		for(int i = 0; i < all_ingredients.size(); i++){
+			hashtable.put(all_ingredients.toArray()[i].getClass().getName(),1);
+		}
+		
+		for(int i = 0; i < suggested_recipes.size(); i ++){
+			ArrayList ingredients = suggested_recipes.get(i).ingredients();
+			boolean canMake = true;
+			for(int j = 0; j < ingredients.size(); j++){
+				if(hashtable.get(ingredients.get(i).toString()) == null){
+					j = ingredients.size();
+					canMake = false;
+				}
+			}
+			if(canMake == true){
+				returnRecipes.add(i, suggested_recipes.get(i));
+			}
+		}
+		
+		return returnRecipes;
 	}
 	
 	private LinearLayout constructMainFrame() {
@@ -103,6 +133,11 @@ public class MainActivity extends ActionBarActivity {
         all_ingredients = RecipeFactory.getIngredientsFromStream(ingreds);
         suggested_recipes = RecipeFactory.createRecipes(recipes, all_ingredients);
         //*/
+        
+        
+        //finds which recipes you can make
+        //// recipesYouCanMake = searchFunction(); 
+        
         
         // Launch the splash screen
         Intent splash = new Intent(this, LaunchScreen.class);
