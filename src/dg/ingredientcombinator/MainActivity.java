@@ -19,13 +19,13 @@ import android.view.View.OnClickListener;
 import android.content.Context;
 
 public class MainActivity extends ActionBarActivity {
-    ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
+    static ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
     
     
     // Ingredient lists will be pushed into the bundle in this order: existing, all
-	ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
-	ArrayList<Ingredient> existing_ingredients = new ArrayList<Ingredient>();
-	ArrayList<Recipe> recipesYouCanMake = new ArrayList<Recipe>();
+	static ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
+	static ArrayList<Ingredient> existing_ingredients = new ArrayList<Ingredient>();
+	static ArrayList<Recipe> recipesYouCanMake = new ArrayList<Recipe>();
 	Context context = this;
 	
 	private Button constructButton(String label, int id, OnClickListener on_click) {
@@ -71,39 +71,47 @@ public class MainActivity extends ActionBarActivity {
 		recipe_list.setOrientation(LinearLayout.VERTICAL);
 		
 		// Add buttons to recipe list
-		// For now, they'll be generic buttons. We can format them
-		// to be fancy at a later date.
-		for (int i=0; i < suggested_recipes.size(); i++) {
+		//these buttons should now show reciepes that you can make 
+		//given that you have all of the possible ingredients
+		
+		for (int i=0; i < recipesYouCanMake.size(); i++) {
 			OnClickListener on_click = new OnClickListener() { public void onClick(View view) {} };
-			Button new_button = constructButton(suggested_recipes.get(i).get_name(), i, on_click);
+			Button new_button = constructButton(recipesYouCanMake.get(i).get_name(), i, on_click);
 			recipe_list.addView(new_button);
 		}
 		
 		recipe_scroll_list.addView(recipe_list);
+		
 		return recipe_scroll_list;
-	}
+		
+}
 	
 	//this function will seach for recipes that can be made with the ingredients on hand
-	private ArrayList<Recipe> searchFunction(){
-		Hashtable hashtable = new Hashtable();
-		ArrayList<Recipe> returnRecipes = null;
-		
-		
-		for(int i = 0; i < all_ingredients.size(); i++){
-			hashtable.put(all_ingredients.toArray()[i].getClass().getName(),1);
-		}
+	public static ArrayList<Recipe> searchFunction(){
+		ArrayList<Recipe> returnRecipes = new ArrayList<Recipe>();
+//it is uneccessary to put the ingredients in a hash table, it is possible to seach through an arrayList
+//		Hashtable hashtable = new Hashtable();
+//		
+//		for(int i = 0; i < existing_ingredients.size(); i++){
+//			hashtable.put(existing_ingredients.toArray()[i].getClass().getName(),1);
+//		}
 		
 		for(int i = 0; i < suggested_recipes.size(); i ++){
 			ArrayList ingredients = suggested_recipes.get(i).ingredients();
-			boolean canMake = true;
-			for(int j = 0; j < ingredients.size(); j++){
-				if(hashtable.get(ingredients.get(i).toString()) == null){
-					j = ingredients.size();
-					canMake = false;
+			int numberOfNeededIngredients = 0;
+			for(int j = 0; j < existing_ingredients.size(); j++){
+				if(!existing_ingredients.contains(ingredients.get(i))){
+					Log.v("SearchFunction", "canMake = false");
+				}else{
+					numberOfNeededIngredients ++;
+					Log.v("SearchFunction", "canMake = true");
 				}
 			}
-			if(canMake == true){
-				returnRecipes.add(i, suggested_recipes.get(i));
+			if(numberOfNeededIngredients == suggested_recipes.get(i).ingredients().size()){
+				returnRecipes.add(suggested_recipes.get(i));
+			}
+			else{
+				System.out.println("Can't make " + suggested_recipes.get(i).get_name());
 			}
 		}
 		
@@ -134,9 +142,11 @@ public class MainActivity extends ActionBarActivity {
         suggested_recipes = RecipeFactory.createRecipes(recipes, all_ingredients);
         //*/
         
+        //set existing ingredients to all ingredients for testing purposes
+        existing_ingredients = all_ingredients;
         
         //finds which recipes you can make
-        //// recipesYouCanMake = searchFunction(); 
+        recipesYouCanMake = searchFunction(); 
         
         
         // Launch the splash screen
