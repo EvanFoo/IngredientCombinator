@@ -9,3 +9,10 @@ blood,bloody
 guts,gutsy
 brains,brainy
 death,dead
+ham
+cheese
+Corned Beef
+Saurkraut
+Swiss Cheese
+Thousand Island
+Rye Bread

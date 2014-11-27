@@ -89,29 +89,21 @@ public class MainActivity extends ActionBarActivity {
 	//this function will seach for recipes that can be made with the ingredients on hand
 	public static ArrayList<Recipe> searchFunction(){
 		ArrayList<Recipe> returnRecipes = new ArrayList<Recipe>();
-//it is uneccessary to put the ingredients in a hash table, it is possible to seach through an arrayList
-//		Hashtable hashtable = new Hashtable();
-//		
-//		for(int i = 0; i < existing_ingredients.size(); i++){
-//			hashtable.put(existing_ingredients.toArray()[i].getClass().getName(),1);
-//		}
+		
+		for(int i = 0; i < existing_ingredients.size(); i++){
+			Log.v("SearchFunction", existing_ingredients.get(i).getName());
+		}
 		
 		for(int i = 0; i < suggested_recipes.size(); i ++){
-			ArrayList ingredients = suggested_recipes.get(i).ingredients();
+			ArrayList<Ingredient> ingredients = suggested_recipes.get(i).ingredients();
 			int numberOfNeededIngredients = 0;
-			for(int j = 0; j < existing_ingredients.size(); j++){
-				if(!existing_ingredients.contains(ingredients.get(i))){
-					Log.v("SearchFunction", "canMake = false");
-				}else{
+			for(int j = 0; j < suggested_recipes.get(i).ingredients().size(); j++){
+				if(existing_ingredients.contains(suggested_recipes.get(i).ingredients().get(j))){
 					numberOfNeededIngredients ++;
-					Log.v("SearchFunction", "canMake = true");
 				}
 			}
 			if(numberOfNeededIngredients == suggested_recipes.get(i).ingredients().size()){
 				returnRecipes.add(suggested_recipes.get(i));
-			}
-			else{
-				System.out.println("Can't make " + suggested_recipes.get(i).get_name());
 			}
 		}
 		
