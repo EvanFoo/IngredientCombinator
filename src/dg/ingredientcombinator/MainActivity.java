@@ -18,6 +18,12 @@ import android.view.View.OnClickListener;
 import android.content.Context;
 
 public class MainActivity extends ActionBarActivity {
+	// Keys for extras
+	final public String INGRED_ALL_KEY = "ingredients_all";
+	final public String INGRED_EXIST_KEY = "ingredients_exist";
+	final public String RECIPE_ALL_KEY = "recipes_all";
+	
+	// Lists
 	ArrayList<Recipe> all_recipes = new ArrayList<Recipe>();
     ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
     // Ingredient lists will be pushed into the bundle in this order: existing, all
@@ -67,6 +73,7 @@ public class MainActivity extends ActionBarActivity {
 		{	 
 			public void onClick(View view) {
 				Intent intent = new Intent(context, RecipesScreen.class);
+				intent.putExtra(RECIPE_ALL_KEY, all_recipes);
 				startActivity(intent);
 			}
 		}
@@ -77,6 +84,8 @@ public class MainActivity extends ActionBarActivity {
 		{	 
 			public void onClick(View view) {
 				Intent intent = new Intent(context, IngredientsScreen.class);
+				intent.putExtra(INGRED_ALL_KEY, all_ingredients);
+				intent.putExtra(INGRED_EXIST_KEY, existing_ingredients);
 				startActivity(intent);
 			}
 		}
