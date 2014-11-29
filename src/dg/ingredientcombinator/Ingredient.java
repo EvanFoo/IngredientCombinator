@@ -1,6 +1,7 @@
 package dg.ingredientcombinator;
 
 import java.util.ArrayList;
+import android.util.Log;
 
 public class Ingredient 
 {
@@ -25,10 +26,34 @@ public class Ingredient
 	}
 	
 	public void printStuffs() {
-		System.out.println(m_name);
+		//System.out.println(m_name);
+		Log.d("printing", "Ingredient name: " + m_name);
 		for (int i=0; i<m_attrs.size(); i++)
 		{
-			System.out.println(m_attrs.get(i));
+			//System.out.println(m_attrs.get(i));
+			Log.d("printing", "Ingredient attribute " + i + ": " + m_attrs.get(i));
 		}
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Ingredient) {
+			Ingredient other = (Ingredient)obj;
+			if (!m_name.equals(other.getName()) || (m_attrs.size() != other.getAttrs().size())) {
+				return false;
+			}
+			
+			ArrayList<String> other_attrs = other.getAttrs();
+			
+			for (int i=0; i<m_attrs.size(); i++) {
+				if (!m_attrs.get(i).equals(other_attrs.get(i))) {
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 }

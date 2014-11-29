@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.io.InputStream;
 
 import android.widget.Button;
@@ -19,15 +18,37 @@ import android.view.View.OnClickListener;
 import android.content.Context;
 
 public class MainActivity extends ActionBarActivity {
-    static ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
-    
-    
+	ArrayList<Recipe> all_recipes = new ArrayList<Recipe>();
+    ArrayList<Recipe> suggested_recipes = new ArrayList<Recipe>();
     // Ingredient lists will be pushed into the bundle in this order: existing, all
-	static ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
-	static ArrayList<Ingredient> existing_ingredients = new ArrayList<Ingredient>();
-	static ArrayList<Recipe> recipesYouCanMake = new ArrayList<Recipe>();
+	ArrayList<Ingredient> all_ingredients = new ArrayList<Ingredient>();
+	ArrayList<Ingredient> existing_ingredients = new ArrayList<Ingredient>();
 	Context context = this;
 	
+	//Recipe availability methods
+	private boolean recipe_available(Recipe recipe) {
+		ArrayList<Ingredient> recipe_ingreds = recipe.ingredients();
+		for (int i=0; i<recipe_ingreds.size(); i++) {
+			if (!existing_ingredients.contains(recipe_ingreds.get(i))) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	private ArrayList<Recipe> get_available_recipes() {
+		ArrayList<Recipe> ret = new ArrayList<Recipe>();
+		for (int i=0; i<all_recipes.size(); i++) {
+			if (recipe_available(all_recipes.get(i))) {
+				ret.add(all_recipes.get(i));
+			}
+		}
+		
+		return ret;
+	}
+	
+	// Interface construction methods
 	private Button constructButton(String label, int id, OnClickListener on_click) {
 		Button button = new Button(this);
 		button.setText(label);
@@ -74,40 +95,15 @@ public class MainActivity extends ActionBarActivity {
 		//these buttons should now show reciepes that you can make 
 		//given that you have all of the possible ingredients
 		
-		for (int i=0; i < recipesYouCanMake.size(); i++) {
+		for (int i=0; i < suggested_recipes.size(); i++) {
 			OnClickListener on_click = new OnClickListener() { public void onClick(View view) {} };
-			Button new_button = constructButton(recipesYouCanMake.get(i).get_name(), i, on_click);
+			Button new_button = constructButton(suggested_recipes.get(i).get_name(), i, on_click);
 			recipe_list.addView(new_button);
 		}
 		
 		recipe_scroll_list.addView(recipe_list);
 		
-		return recipe_scroll_list;
-		
-}
-	
-	//this function will seach for recipes that can be made with the ingredients on hand
-	public static ArrayList<Recipe> searchFunction(){
-		ArrayList<Recipe> returnRecipes = new ArrayList<Recipe>();
-		
-		for(int i = 0; i < existing_ingredients.size(); i++){
-			Log.v("SearchFunction", existing_ingredients.get(i).getName());
-		}
-		
-		for(int i = 0; i < suggested_recipes.size(); i ++){
-			ArrayList<Ingredient> ingredients = suggested_recipes.get(i).ingredients();
-			int numberOfNeededIngredients = 0;
-			for(int j = 0; j < suggested_recipes.get(i).ingredients().size(); j++){
-				if(existing_ingredients.contains(suggested_recipes.get(i).ingredients().get(j))){
-					numberOfNeededIngredients ++;
-				}
-			}
-			if(numberOfNeededIngredients == suggested_recipes.get(i).ingredients().size()){
-				returnRecipes.add(suggested_recipes.get(i));
-			}
-		}
-		
-		return returnRecipes;
+		return recipe_scroll_list;	
 	}
 	
 	private LinearLayout constructMainFrame() {
@@ -119,33 +115,33 @@ public class MainActivity extends ActionBarActivity {
 		return main_frame;
 	}
 	
+	// Android methods
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-        
-        ///*
-        // Temporary populate lists code
-        // Get data from resources
-        InputStream recipes = getResources().openRawResource(R.raw.recipe);
-        InputStream ingreds = getResources().openRawResource(R.raw.ingredient);
-        all_ingredients = RecipeFactory.getIngredientsFromStream(ingreds);
-        suggested_recipes = RecipeFactory.createRecipes(recipes, all_ingredients);
-        //*/
-        
-        //set existing ingredients to all ingredients for testing purposes
-        existing_ingredients = all_ingredients;
-        
-        //finds which recipes you can make
-        recipesYouCanMake = searchFunction(); 
-        
         
         // Launch the splash screen
         Intent splash = new Intent(this, LaunchScreen.class);
         startActivity(splash);
         
         // Spawn a thread to load information from database
+        ///*
+        // Temporary populate lists code
+        // Get data from resources
+        InputStream recipes = getResources().openRawResource(R.raw.recipe);
+        InputStream existing_ingreds = getResources().openRawResource(R.raw.ingredient);
+        InputStream all_ingreds = getResources().openRawResource(R.raw.all_ingredients);
+        all_ingredients = RecipeFactory.getIngredientsFromStream(all_ingreds);
+        existing_ingredients = RecipeFactory.getIngredientsFromStream(existing_ingreds);
+        all_recipes = RecipeFactory.createRecipes(recipes, all_ingredients);
+        //*/
+        
+        suggested_recipes = get_available_recipes();
+        // Test code for suggested_recipes
+        for (int i=0; i<suggested_recipes.size(); i++) {
+        	Log.d("printing", suggested_recipes.get(i).get_name());
+        }
         
         /*
          * Example code of how to pass an object between Activities with an Intent
