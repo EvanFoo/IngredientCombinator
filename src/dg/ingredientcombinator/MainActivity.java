@@ -130,7 +130,7 @@ public class MainActivity extends ActionBarActivity {
         // Temporary populate lists code
         // Get data from resources
         InputStream recipes = getResources().openRawResource(R.raw.recipe);
-        InputStream existing_ingreds = getResources().openRawResource(R.raw.ingredient);
+        InputStream existing_ingreds = getResources().openRawResource(R.raw.existing_ingredients);
         InputStream all_ingreds = getResources().openRawResource(R.raw.all_ingredients);
         all_ingredients = RecipeFactory.getIngredientsFromStream(all_ingreds);
         existing_ingredients = RecipeFactory.getIngredientsFromStream(existing_ingreds);
