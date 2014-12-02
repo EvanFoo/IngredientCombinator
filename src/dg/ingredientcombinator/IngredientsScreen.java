@@ -1,16 +1,12 @@
 package dg.ingredientcombinator;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import android.support.v7.app.ActionBarActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -118,11 +114,13 @@ public class IngredientsScreen extends ActionBarActivity {
 		return(ingredientLayout);
 		
 	}
+	// Note: This method should no longer be required since I pass a list of ingredients into the class
+	// through the intent.
 	public void getIngredients(){
 		//File file = new File("..\\ingredient.txt");
 		AssetManager am = getAssets();
 		try {
-		    BufferedReader br = new BufferedReader(new InputStreamReader(am.open("ingredients.txt")));
+		    BufferedReader br = new BufferedReader(new InputStreamReader(am.open("all_ingredients.txt")));
 		    String line=new String();
 
 		    while ((line = br.readLine()) != null) {
